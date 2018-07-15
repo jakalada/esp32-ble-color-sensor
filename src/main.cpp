@@ -12,7 +12,7 @@ BLECharacteristic *pCharacteristic = NULL;
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
 
-#define DEVICE_NAME "ble-color-sensor"
+#define DEVICE_NAME "sensor-0001"
 #define SERVICE_UUID "9D86A3DA-467C-4224-B96C-36D5F85C1725"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
