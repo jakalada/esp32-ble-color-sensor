@@ -12,6 +12,7 @@ BLECharacteristic *pCharacteristic = NULL;
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
 
+#define DEVICE_NAME "ble-color-sensor"
 #define SERVICE_UUID "9D86A3DA-467C-4224-B96C-36D5F85C1725"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
@@ -28,7 +29,7 @@ S11059 colorSensor;
 
 void setupBLE() {
   // GAP Serviceにおけるデバイス名を指定して初期化
-  BLEDevice::init("ble-color-sensor");
+  BLEDevice::init(DEVICE_NAME);
 
   // Serverを生成
   pServer = BLEDevice::createServer();
