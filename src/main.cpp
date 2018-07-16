@@ -25,7 +25,7 @@ bool oldDeviceConnected = false;
 #define SERVICE_UUID "9D86A3DA-467C-4224-B96C-36D5F85C1725"
 
 // CharacteristicのUUID
-#define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+#define CHARACTERISTIC_UUID "BEB5483E-36E1-4688-B7F5-EA07361B26A8"
 
 class MyServerCallbacks : public BLEServerCallbacks {
   void onConnect(BLEServer *pServer) { deviceConnected = true; };
