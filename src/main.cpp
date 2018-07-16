@@ -12,8 +12,19 @@ BLECharacteristic *pCharacteristic = NULL;
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
 
-#define DEVICE_NAME "sensor-0001"
+// デバイス名
+//
+// デバイス名が5文字より多いとアドバタイズパケットにServiceのUUIDが載らないので注意。
+// 詳細は未調査。下記参考。
+//
+// service advertising not working · Issue #163 · nkolban/esp32-snippets
+// https://github.com/nkolban/esp32-snippets/issues/163
+#define DEVICE_NAME "0001"
+
+// ServiceのUUID
 #define SERVICE_UUID "9D86A3DA-467C-4224-B96C-36D5F85C1725"
+
+// CharacteristicのUUID
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
 class MyServerCallbacks : public BLEServerCallbacks {
@@ -31,7 +42,7 @@ void setupBLE() {
   // GAP Serviceにおけるデバイス名を指定して初期化
   BLEDevice::init(DEVICE_NAME);
 
-  // Serverを生成
+  // Serverを生成ろー
   pServer = BLEDevice::createServer();
   // Serverにコールバック関数を設定
   pServer->setCallbacks(new MyServerCallbacks());
@@ -51,6 +62,9 @@ void setupBLE() {
   // Serviceを開始
   Serial.println("start service");
   pService->start();
+
+  // アドバタイズパケットにServiceの情報を含める
+  pServer->getAdvertising()->addServiceUUID(SERVICE_UUID);
 
   // アドバタイズを開始
   Serial.println("start adivertising");
