@@ -108,6 +108,12 @@ bool readRGB(uint8_t (&dest)[3]) {
     // カラーセンサの各色のカウント値を格納
     float rgb[3] = {(float)colorSensor.getRed(), (float)colorSensor.getGreen(),
                     (float)colorSensor.getBlue()};
+    Serial.print(rgb[0]);
+    Serial.print(",");
+    Serial.print(rgb[1]);
+    Serial.print(",");
+    Serial.print(rgb[2]);
+    Serial.println("");
 
     // 最大値の色を選択
     int maxIndex = 0;
@@ -121,6 +127,12 @@ bool readRGB(uint8_t (&dest)[3]) {
     for (int i = 0; i < 3; i++) {
       dest[i] = (uint8_t)(255.0 * (rgb[i] / rgb[maxIndex]));
     }
+    Serial.print(dest[0], HEX);
+    Serial.print(",");
+    Serial.print(dest[1], HEX);
+    Serial.print(",");
+    Serial.print(dest[2], HEX);
+    Serial.println("");
 
     return true;
   } else {
