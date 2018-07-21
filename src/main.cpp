@@ -33,8 +33,10 @@ class MyServerCallbacks : public BLEServerCallbacks {
   void onDisconnect(BLEServer *pServer) { deviceConnected = false; }
 };
 
-static const int sdaPin = 25;
-static const int sclPin = 26;
+const int sdaPin = 25;
+const int sclPin = 26;
+const int ledPin = 13;
+bool ledToggle = false;
 
 S11059 colorSensor;
 
@@ -81,7 +83,7 @@ void setupColorSensor() {
   // ゲイン選択
   // * S11059_GAIN_HIGH: Highゲイン
   // * S11059_GAIN_LOW: Lowゲイン
-  colorSensor.setGain(S11059_GAIN_LOW);
+  colorSensor.setGain(S11059_GAIN_HIGH);
 
   // 1色あたりの積分時間設定(下記は指定可能な定数ごとの固定時間モードの場合の積分時間)
   // * S11059_TINT0: 87.5 us
@@ -131,11 +133,16 @@ void setup() {
   Serial.begin(9600);
   setupColorSensor();
   setupBLE();
+
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, HIGH);
 }
 
 void loop() {
   // 接続中
   if (deviceConnected) {
+    delay(1000);
+
     // 積分時間よりも長く待機
     colorSensor.delay();
 
@@ -145,7 +152,12 @@ void loop() {
       pCharacteristic->notify();
     }
 
-    delay(500);
+    if (ledToggle) {
+      digitalWrite(ledPin, HIGH);
+    } else {
+      digitalWrite(ledPin, LOW);
+    }
+    ledToggle = !ledToggle;
   }
 
   // disconnecting
@@ -160,6 +172,7 @@ void loop() {
     Serial.println("start advertising");
 
     oldDeviceConnected = deviceConnected;
+    digitalWrite(ledPin, HIGH);
   }
 
   // 接続確立時
